@@ -1,13 +1,13 @@
 {
-    "raw_start":00000,
-    "raw_end":00000,
+    "raw_start":"00000",
+    "raw_end":"00000",
     "develop_date":"",
     "envelop_comments":"",
     "size":"",
     "size_COMMENT":"values could be 4x6 or 5x7",
-    "start_number":00000,
+    "start_number":"00000",
     "number_of_images":0,
     "special_images": [
-        {"number":00000,"comment":""}
+        {"number":"00000","comment":""}
     ]
 }
