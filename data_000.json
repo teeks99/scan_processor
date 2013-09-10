@@ -1,0 +1,13 @@
+{
+    "raw_start":"",
+    "raw_end":"",
+    "develop_date":"",
+    "envelop_comments":"",
+    "size":"",
+    "size_COMMENT":"values could be 4x6 or 5x7",
+    "start_number":00000,
+    "number_of_images":0,
+    "special_images": [
+        {"number":00000,"comment":""}
+    ]
+}
