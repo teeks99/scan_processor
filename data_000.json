@@ -1,13 +1,18 @@
 {
     "raw_start":"00000",
     "raw_end":"00000",
-    "develop_date":"",
+    "develop_date":"YYYY-MM-DD",
     "envelop_comments":"",
     "size":"",
     "size_COMMENT":"values could be 4x6 or 5x7",
     "start_number":"00000",
     "number_of_images":0,
+    "special_images_COMMENT1":"This field is optional, if there is a comment (written on the back)",
+    "special_images_COMMENT2":"it should be in the comment member. If the rotation is portrait,",
+    "special_images_COMMENT3":"the rotation field should have the string portrait, it will assume",
+    "special_images_COMMENT4":"landscape if there is no rotation present.",
     "special_images": [
         {"number":"00000","comment":""}
+        {"number":"00000","rotation":"portrait"}
     ]
 }
