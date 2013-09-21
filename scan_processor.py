@@ -25,7 +25,7 @@ display_sized_path="disp/"
 scanner_dpi=600
 
 def zero_trim(number_string):
-    while number_string.starts_with("0"):
+    while number_string.startswith("0") and len(number_string) > 1:
         number_string = number_string[1:]
     return int(number_string)
 
@@ -50,7 +50,9 @@ class ImageSet(object):
         self.make_html = True
         
     def process(self, json_file):
-        self.data = json.dump(json_file)
+	f = open(json_file,'r')
+        self.data = json.load(f)
+        f.close()
         self.generate_special_lookup()
         self.developed = datetime.datetime.strptime(self.data['develop_date'],
             "%Y-%m-%d")
@@ -67,16 +69,18 @@ class ImageSet(object):
         self.current_image_number = 0
         self.start_number_num = zero_trim(self.data['start_number'])
         self.image_num_strs = deque()
-        for raw_num in range(raw_start_num, raw_end_num):
+        for raw_num in range(self.raw_start_num, self.raw_end_num+1):
             images = self.split(raw_num)
             
             # An order-dependant deque
             while images:
-                image = images.popleft()
+                i = images.popleft()
+                image = i['img']
+                area = i['area']
                 img_num = self.start_number_num + self.current_image_number
                 img_num_str = zero_pad(img_num, 5)
                 
-                self.rotate(image)
+                self.rotate(image, area)
                 
                 self.last_digitized = datetime.datetime.now()
                     
@@ -86,8 +90,11 @@ class ImageSet(object):
                 image.write(img_num_str + '.jpg')
                 self.image_num_strs.append(img_num_str)
 
+                comment = ""
                 if img_num_str in self.lookup:
-                    self.add_comment(img_num_str + '.jpg', self.lookup[img_num_str]['comment'])
+                    if 'comment' in self.lookup[img_num_str]:
+                        comment = self.lookup[img_num_str]['comment']
+                self.add_meta_data(img_num_str + '.jpg', comment)
 
                 # Increment after
                 self.current_image_number += 1
@@ -103,51 +110,50 @@ class ImageSet(object):
         
     def split(self, raw_num):
         # Open Raw with imagemagick (format r00000.jpg)
-        data=file('r' + zero_fill(raw_num, 5) + '.jpg','rb').read()
+        data=file('../raw/r' + zero_pad(raw_num, 5) + '.jpg','rb').read()
         raw=magick.Image(magick.Blob(data))
   
         images = deque()
         for area in templates[self.data['size']]:
-            images.append(self.crop(raw, area))          
+            images.append({'img':self.crop(raw, area),'area':area})
             
-        data.close()
         return images
             
-    def crop(raw, area):
+    def crop(self, raw, area):
         # Make a copy of the raw image
         img = magick.Image(raw)
         
         area = scale_area_dpi(area, scanner_dpi)
 
         # Use imagemagick to crop
-        rect = "%sx%s+%s+%s" % (area['w'], area['h'], area['x1'], area['y1'])
+        rect = "%sx%s+%s+%s" % (area['w'], area['h'], area['x'], area['y'])
         img.crop(rect)
         
         return img
         
-    def rotate(img, area, rotation="landscape"):
-        if (rotation=="landscape" and area['rotation'] == 90) or 
-            (rotation=="portrait" and area['rotation'] == 0):
+    def rotate(self, img, area, rotation="landscape"):
+        if ((rotation=="landscape" and area['rotation'] == 90) or 
+            (rotation=="portrait" and area['rotation'] == 0)):
             img.rotate(90)            
         
-    def add_comment(img_path, comment="", rotation="landscape"):
+    def add_meta_data(self, img_path, comment="", rotation="landscape"):
         # Comment tags used by various programs: http://redmine.yorba.org/projects/shotwell/wiki/PhotoTags
         # All the supported tags: http://www.exiv2.org/metadata.html
         metadata = GExiv2.Metadata(img_path)
 
-        metadata[Iptc.Application2.DateCreated] = self.developed.date().strftime('%Y%m%d')
-        metadata[Iptc.Application2.DigitizationDate] = self.last_digitized.date().strftime('%Y%m%d')
-        metadata[Iptc.Application2.DigitizationTime] = self.last_digitized.time().strftime('%H%M%S%z')
-        metadata[Exif.Photo.DateTimeOriginal] = self.developed.date().strftime('%Y-%m-%d')
-        metadata[Exif.Photo.DateTimeDigitized] = self.last_digitized.strftime('%Y-%m-%d %H:%M:%S')
+        metadata['Iptc.Application2.DateCreated'] = self.developed.date().strftime('%Y%m%d')
+        metadata['Iptc.Application2.DigitizationDate'] = self.last_digitized.date().strftime('%Y%m%d')
+        metadata['Iptc.Application2.DigitizationTime'] = self.last_digitized.time().strftime('%H%M%S%z')
+        metadata['Exif.Photo.DateTimeOriginal'] = self.developed.date().strftime('%Y-%m-%d')
+        metadata['Exif.Photo.DateTimeDigitized'] = self.last_digitized.strftime('%Y-%m-%d %H:%M:%S')
 
-        metadata[Iptc.Application2.Caption] = comment
-        metadata[Exif.Image.ImageDescription] = comment
+        metadata['Iptc.Application2.Caption'] = comment
+        metadata['Exif.Image.ImageDescription'] = comment
 
         # We already rotated correctly, so specify that there are no further
         # rotations.
         #See: http://sylvana.net/jpegcrop/exif_orientation.html
-        metadata[Exif.Image.Orientation] = 1            
+        metadata['Exif.Image.Orientation'] = '1'          
             
         metadata.save_file()
             
@@ -162,8 +168,11 @@ class ImageSet(object):
         img_path = self.display_path + img_num_str + '.jpg'            
         img.write(img_path)
 
+        comment = ""
         if img_num_str in self.lookup:
-            self.add_comment(img_path, self.lookup[img_num_str]['comment'])
+            if 'comment' in self.lookup[img_num_str]:
+                comment = self.lookup[img_num_str]['comment']
+        self.add_meta_data(img_path, comment)
         
     def generate_html(self, filename="view.html"):
         file = open(filename, 'w')
@@ -202,5 +211,6 @@ class ImageSet(object):
         file.close()
 
 if __name__ == '__main__':
-    pass
+    i = ImageSet()
+    i.process('data_000.json')
 

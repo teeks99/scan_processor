@@ -24,16 +24,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="523.14219"
-     inkscape:cy="260.78622"
+     inkscape:zoom="0.35"
+     inkscape:cx="468.02948"
+     inkscape:cy="291.55677"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="831"
      inkscape:window-height="730"
-     inkscape:window-x="96"
+     inkscape:window-x="167"
      inkscape:window-y="130"
      inkscape:window-maximized="0" />
   <metadata
@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -107,7 +107,7 @@
            sodipodi:cy="142.14285"
            sodipodi:rx="18.571428"
            sodipodi:ry="16.428572"
-           d="m 228.57143,142.14285 a 18.571428,16.428572 0 1 1 -37.14286,0 18.571428,16.428572 0 1 1 37.14286,0 z"
+           d="m 228.57143,142.14285 c 0,9.07325 -8.31471,16.42857 -18.57143,16.42857 -10.25672,0 -18.57143,-7.35532 -18.57143,-16.42857 0,-9.07325 8.31471,-16.42857 18.57143,-16.42857 10.25672,0 18.57143,7.35532 18.57143,16.42857 z"
            transform="translate(0,62.3598)" />
       </g>
       <g
@@ -386,26 +386,26 @@
          y="581.69324">Image 3</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="553.27649"
-       y="305.09924"
+       style="font-size:13.36056995px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="553.26874"
+       y="315.54614"
        id="text3985"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="553.27649"
-         y="305.09924"
+         x="553.26874"
+         y="315.54614"
          id="tspan3989">This template is from the face </tspan><tspan
          sodipodi:role="line"
-         x="553.27649"
-         y="325.09924"
+         x="553.26874"
+         y="332.24683"
          id="tspan3991">up perspective. As if you were </tspan><tspan
          sodipodi:role="line"
-         x="553.27649"
-         y="345.09924"
+         x="553.26874"
+         y="348.94754"
          id="tspan3993">going to paste the images on </tspan><tspan
          sodipodi:role="line"
-         x="553.27649"
-         y="365.09924"
+         x="553.26874"
+         y="365.64825"
          id="tspan3995">here, then scan the page.</tspan></text>
   </g>
 </svg>

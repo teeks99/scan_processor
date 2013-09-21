@@ -33,7 +33,7 @@
      units="px"
      inkscape:window-width="831"
      inkscape:window-height="730"
-     inkscape:window-x="96"
+     inkscape:window-x="167"
      inkscape:window-y="130"
      inkscape:window-maximized="0" />
   <metadata
@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -75,17 +75,17 @@
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="320.94138"
-       y="545.51556"
+       x="240.94138"
+       y="548.37268"
        id="text3985"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="320.94138"
-         y="545.51556"
+         x="240.94138"
+         y="548.37268"
          id="tspan3995">This template is from the face down perspective. Place the </tspan><tspan
          sodipodi:role="line"
-         x="320.94138"
-         y="565.51556"
+         x="240.94138"
+         y="568.37268"
          id="tspan4236">Images face down into the holes.</tspan></text>
     <rect
        style="fill:none;stroke:#000000"

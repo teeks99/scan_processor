@@ -33,7 +33,7 @@
      units="px"
      inkscape:window-width="831"
      inkscape:window-height="730"
-     inkscape:window-x="96"
+     inkscape:window-x="167"
      inkscape:window-y="130"
      inkscape:window-maximized="0" />
   <metadata
@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -91,7 +91,7 @@
            sodipodi:cy="142.14285"
            sodipodi:rx="18.571428"
            sodipodi:ry="16.428572"
-           d="m 228.57143,142.14285 a 18.571428,16.428572 0 1 1 -37.14286,0 18.571428,16.428572 0 1 1 37.14286,0 z"
+           d="m 228.57143,142.14285 c 0,9.07325 -8.31471,16.42857 -18.57143,16.42857 -10.25672,0 -18.57143,-7.35532 -18.57143,-16.42857 0,-9.07325 8.31471,-16.42857 18.57143,-16.42857 10.25672,0 18.57143,7.35532 18.57143,16.42857 z"
            transform="translate(0,62.3598)" />
       </g>
       <g
@@ -165,17 +165,17 @@
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="320.94138"
-       y="545.51556"
+       x="163.35757"
+       y="547.53589"
        id="text3985"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="320.94138"
-         y="545.51556"
+         x="163.35757"
+         y="547.53589"
          id="tspan3991">This template is from the face up perspective. As if you were </tspan><tspan
          sodipodi:role="line"
-         x="320.94138"
-         y="565.51556"
+         x="163.35757"
+         y="567.53589"
          id="tspan3995">going to paste the images on here, then scan the page.</tspan></text>
     <rect
        style="fill:none;stroke:#000000"
