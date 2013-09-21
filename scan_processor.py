@@ -141,9 +141,9 @@ class ImageSet(object):
         # All the supported tags: http://www.exiv2.org/metadata.html
         metadata = GExiv2.Metadata(img_path)
 
-        metadata['Iptc.Application2.DateCreated'] = self.developed.date().strftime('%Y%m%d')
-        metadata['Iptc.Application2.DigitizationDate'] = self.last_digitized.date().strftime('%Y%m%d')
-        metadata['Iptc.Application2.DigitizationTime'] = self.last_digitized.time().strftime('%H%M%S%z')
+        metadata['Iptc.Application2.DateCreated'] = self.developed.date().strftime('%Y-%m-%d')
+        metadata['Iptc.Application2.DigitizationDate'] = self.last_digitized.date().strftime('%Y-%m-%d')
+        metadata['Iptc.Application2.DigitizationTime'] = self.last_digitized.time().strftime('%H:%M:%S%z')
         metadata['Exif.Photo.DateTimeOriginal'] = self.developed.date().strftime('%Y-%m-%d')
         metadata['Exif.Photo.DateTimeDigitized'] = self.last_digitized.strftime('%Y-%m-%d %H:%M:%S')
 
