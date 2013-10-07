@@ -21,6 +21,11 @@ areas.append({'x':0,'y':0,'h':450,'w':630,'dpi':90,'rotation':0})
 areas.append({'x':0,'y':540,'h':450,'w':630,'dpi':90,'rotation':0})
 templates['5x7'] = areas
 
+areas = []
+areas.append({'x':0,'y':0,'h':4200,'w':2400,'dpi':600,'rotation':90})
+areas.append({'x':2750,'y':0,'h':4200,'w':2400,'dpi':600,'rotation':90})
+templates['4x7'] = areas
+
 display_sized_path="disp/"
 scanner_dpi=600
 
@@ -73,14 +78,18 @@ class ImageSet(object):
             images = self.split(raw_num)
             
             # An order-dependant deque
-            while images:
+            while images and (self.current_image_number < self.data['number_of_images']):
                 i = images.popleft()
                 image = i['img']
                 area = i['area']
                 img_num = self.start_number_num + self.current_image_number
                 img_num_str = zero_pad(img_num, 5)
                 
-                self.rotate(image, area)
+                rotation = "landscape"
+                if img_num_str in self.lookup:
+                    if 'rotation' in self.lookup[img_num_str]:
+                        rotation = self.lookup[img_num_str]['rotation']
+                self.rotate(image, area, rotation)
                 
                 self.last_digitized = datetime.datetime.now()
                     
@@ -132,9 +141,14 @@ class ImageSet(object):
         return img
         
     def rotate(self, img, area, rotation="landscape"):
-        if ((rotation=="landscape" and area['rotation'] == 90) or 
-            (rotation=="portrait" and area['rotation'] == 0)):
-            img.rotate(90)            
+	if rotation=="landscape" and area['rotation'] == 0:
+            pass
+        elif rotation=="landscape" and area['rotation'] == 90:
+            img.rotate(90)
+        elif rotation=="portrait" and area['rotation'] == 0:
+            img.rotate(270)
+        elif rotation=="portrait" and area['rotation'] == 90:
+            pass
         
     def add_meta_data(self, img_path, comment="", rotation="landscape"):
         # Comment tags used by various programs: http://redmine.yorba.org/projects/shotwell/wiki/PhotoTags
@@ -160,7 +174,7 @@ class ImageSet(object):
     def display_size(self, img):
         # Make a copy
         img = magick.Image(img) 
-        # Resize
+        # Resize #TODO: Use 480x640 for already rotated images
         img.sample('640x480')
         img_num_str = zero_pad(self.start_number_num + 
             self.current_image_number, 5)
@@ -211,6 +225,7 @@ class ImageSet(object):
         file.close()
 
 if __name__ == '__main__':
+    set_name = os.path.basename(os.getcwd())
     i = ImageSet()
-    i.process('data_000.json')
+    i.process('data_' + set_name + '.json')
 
