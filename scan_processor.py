@@ -17,6 +17,7 @@ areas.append({'x':405,'y':450,'h':540,'w':360,'dpi':90,'rotation':90})
 templates['4x6'] = areas
 
 # This is temporary! Need to trim down correctly.
+areas = []
 areas.append({'x':0,'y':0,'h':360,'w':540,'dpi':90,'rotation':0})
 areas.append({'x':0,'y':450,'h':540,'w':360,'dpi':90,'rotation':90})
 areas.append({'x':405,'y':450,'h':540,'w':360,'dpi':90,'rotation':90})
