@@ -16,6 +16,12 @@ areas.append({'x':0,'y':450,'h':540,'w':360,'dpi':90,'rotation':90})
 areas.append({'x':405,'y':450,'h':540,'w':360,'dpi':90,'rotation':90})
 templates['4x6'] = areas
 
+# This is temporary! Need to trim down correctly.
+areas.append({'x':0,'y':0,'h':360,'w':540,'dpi':90,'rotation':0})
+areas.append({'x':0,'y':450,'h':540,'w':360,'dpi':90,'rotation':90})
+areas.append({'x':405,'y':450,'h':540,'w':360,'dpi':90,'rotation':90})
+templates['3x5'] = areas
+
 areas = []
 areas.append({'x':0,'y':0,'h':450,'w':630,'dpi':90,'rotation':0})
 areas.append({'x':0,'y':540,'h':450,'w':630,'dpi':90,'rotation':0})
@@ -73,40 +79,47 @@ class ImageSet(object):
         
         self.current_image_number = 0
         self.start_number_num = zero_trim(self.data['start_number'])
+        self.last_digitized = datetime.datetime.now()
         self.image_num_strs = deque()
-        for raw_num in range(self.raw_start_num, self.raw_end_num+1):
-            images = self.split(raw_num)
-            
-            # An order-dependant deque
-            while images and (self.current_image_number < self.data['number_of_images']):
-                i = images.popleft()
-                image = i['img']
-                area = i['area']
-                img_num = self.start_number_num + self.current_image_number
-                img_num_str = zero_pad(img_num, 5)
-                
-                rotation = "landscape"
-                if img_num_str in self.lookup:
-                    if 'rotation' in self.lookup[img_num_str]:
-                        rotation = self.lookup[img_num_str]['rotation']
-                self.rotate(image, area, rotation)
-                
-                self.last_digitized = datetime.datetime.now()
-                    
+        if self.data['size'] == 'manual':
+            for img_num in range(self.start_number_num, self.start_number_num + self.data['number_of_images']):
                 if self.make_display:
-                    self.display_size(image)
-                    
-                image.write(img_num_str + '.jpg')
+                    img_num_str = zero_pad(img_num, 5)
+                    data=file(img_num_str + '.jpg', 'rb').read()
+                    img=magick.Image(magick.Blob(data))
+                    self.display_size(img)
+                self.add_comment(img_num_str, img_num_str + '.jpg')
                 self.image_num_strs.append(img_num_str)
-
-                comment = ""
-                if img_num_str in self.lookup:
-                    if 'comment' in self.lookup[img_num_str]:
-                        comment = self.lookup[img_num_str]['comment']
-                self.add_meta_data(img_num_str + '.jpg', comment)
-
-                # Increment after
                 self.current_image_number += 1
+
+        else:
+            for raw_num in range(self.raw_start_num, self.raw_end_num+1):
+                images = self.split(raw_num)
+            
+                # An order-dependant deque
+                while images and (self.current_image_number < self.data['number_of_images']):
+                    i = images.popleft()
+                    image = i['img']
+                    area = i['area']
+                    img_num = self.start_number_num + self.current_image_number
+                    img_num_str = zero_pad(img_num, 5)
+                
+                    rotation = "landscape"
+                    if img_num_str in self.lookup:
+                        if 'rotation' in self.lookup[img_num_str]:
+                           rotation = self.lookup[img_num_str]['rotation']
+                    self.rotate(image, area, rotation)
+                
+                    if self.make_display:
+                        self.display_size(image)
+                    
+                    image.write(img_num_str + '.jpg')
+                    self.image_num_strs.append(img_num_str)
+
+                    self.add_comment(img_num_str, img_num_str + '.jpg')
+
+                    # Increment after
+                    self.current_image_number += 1
                 
         if self.make_html:
             self.generate_html()
@@ -174,19 +187,22 @@ class ImageSet(object):
     def display_size(self, img):
         # Make a copy
         img = magick.Image(img) 
-        # Resize #TODO: Use 480x640 for already rotated images
         img.sample('640x480')
         img_num_str = zero_pad(self.start_number_num + 
             self.current_image_number, 5)
 
         img_path = self.display_path + img_num_str + '.jpg'            
         img.write(img_path)
+        self.add_comment(img_num_str, img_path)
 
+    def add_comment(self, img_num_str, img_path):
         comment = ""
         if img_num_str in self.lookup:
             if 'comment' in self.lookup[img_num_str]:
                 comment = self.lookup[img_num_str]['comment']
         self.add_meta_data(img_path, comment)
+
+         
         
     def generate_html(self, filename="view.html"):
         file = open(filename, 'w')
