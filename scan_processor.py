@@ -169,6 +169,10 @@ class ImageSet(object):
             img.rotate(270)
         elif rotation=="portrait" and area['rotation'] == 90:
             pass
+        elif rotation=="portrait-flip" and area['rotation'] == 0:
+            img.rotate(90)
+        elif rotation=="portrait-flip" and area['rotation'] == 90:
+            pass
         
     def add_meta_data(self, img_path, comment="", rotation="landscape"):
         # Comment tags used by various programs: http://redmine.yorba.org/projects/shotwell/wiki/PhotoTags
