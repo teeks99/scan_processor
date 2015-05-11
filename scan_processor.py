@@ -165,6 +165,10 @@ class ImageSet(object):
             pass
         elif rotation=="landscape" and area['rotation'] == 90:
             img.rotate(90)
+        elif rotation=="landscape-flip" and area['rotation'] == 0:
+            img.rotate(180)
+        elif rotation=="landscape-flip" and area['rotation'] == 90:
+            img.rotate(270)
         elif rotation=="portrait" and area['rotation'] == 0:
             img.rotate(270)
         elif rotation=="portrait" and area['rotation'] == 90:
