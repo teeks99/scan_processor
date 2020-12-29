@@ -1,4 +1,6 @@
 import PythonMagick as magick
+import gi
+gi.require_version('GExiv2', '0.10')
 from gi.repository import GExiv2
 import json
 from collections import deque
